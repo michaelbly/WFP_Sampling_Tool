@@ -105,8 +105,7 @@ create_targets<-function(sframe,input){
     dplyr::mutate(
       target = ceiling(Ssize(Population,input$conf_level,input$pror,input$e_marg))
        |> as.numeric(),
-      target.with.buffer = 
-        as.numeric(ceiling(target * (1+input$buf)))
+      target.with.buffer = as.numeric(ceiling(target * (1+input$buf)))
       
     )
 }
@@ -248,7 +247,7 @@ cluster_sampling<-function(sframe,cls,buf,ICC,dist,target,mode="notforced"){
 #' input The input parameters for the sampling method.
 #' return A list containing the sample, summary statistics, and any additional information.
 make_sample<-function(sampling_frame,input){
-
+  
   # format the sample frame
   sampl_f<-format_sampling_frame(sampling_frame,input)
   
@@ -261,17 +260,16 @@ make_sample<-function(sampling_frame,input){
   cls<-input$cls
   buf<-input$buf
   ICC<-input$ICC
-
+  
   if(input$samp_type=="Cluster sampling"){
-    if (input$samp_type=="Simple random - allocation"){
-      output<-apply(target,1,stage2rdsample,sframe=sampl_f,buf=buf) %>% unlist 
-    }
-    else {
       clsampling<-apply(target,1,clustersample,sframe=sampl_f,cls=cls,buf=buf,ICC=ICC) 
       output<-lapply(clsampling,function(x) x$output) %>% unlist %>% c
       sw_rand<-lapply(clsampling,function(x) x$sw_rand) %>% unlist %>% c
-    }
-  } else if (input$samp_type=="Simple random"){
+    
+  } else if (input$samp_type=="Simple random - allocation"){
+    output<-apply(target,1,stage2rdsample,sframe=sampl_f,buf=buf) %>% unlist 
+    
+  } else if (input$samp_type=="Simple Random"){
     output<-apply(target,1,randomsample,sframe=sampl_f,buf=buf) %>% unlist 
   }
   
@@ -293,7 +291,7 @@ make_sample<-function(sampling_frame,input){
       Surveys = sum(Survey, na.rm = TRUE),
       PSUs = n(),
       NB_Population = max(SumDist, na.rm = TRUE)
-      ) |>
+    ) |>
     dplyr::mutate(
       Cluster_size = round(Surveys / PSUs, 2),
       Cluster_size_init = input$cls,
@@ -326,10 +324,9 @@ make_sample<-function(sampling_frame,input){
     summary_sample$DESS<-rep(NA,le)
     summary_sample$Effective_sample<-rep(NA,le)
   }
-  
+
   
   names(summary_sample)<-c("Stratification","# surveys", "# units to assess","Population","Mean Cluster size","Cluster size set","ICC","DESS","Effective sample","% buffer","Confidence level","Error margin","Sampling type")
   return(list(sample=dbout,summary_sample=summary_sample,sw_rand=sw_rand))
   
 }
-

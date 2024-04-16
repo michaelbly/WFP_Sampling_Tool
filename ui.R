@@ -44,48 +44,49 @@ navbarPage(
                     fluidRow(
                       column(width = 1),
                       column(width = 11,
-                      h1("Brief overview of the tool"),
+                      h1("Instructions"),
                       align = "left"
                     )),
                     fluidRow(
                       column(1,
                              br()
                       ),
-                      column(4,
-                             h2("Mode of sampling"),	
-                             p(strong("Enter sample size:"),"You can input the target sample size"),
-                             p(strong("Sample size based on population:"),"The sample size will be based on confidence level, error margin and proportion"),
-                             
-                             h2("Type of sampling"),
+                      column(5,
+                             h3("1) Define your sampling methodology"),
                              
                              p(strong("Random sampling:"),"Simple Random sampling, a random sample directly from the sampling frame which consists of every unit in the population of interest, thus ensuring equal probability of each unit to be selected."),
                              p(strong("Simple random - allocation:"),"Allocates surveys based on the size of the unit provided (e.g. cities), to use if the information about each unit of analysis is missing."),
                              p(strong("Cluster sampling:"),"Clusters, or Primary Sampling Units (PSUs), are first randomly selected, before a set number of units (e.g. households) at each cluster is randomly selected."),
-                             p(strong("Stratified:"),"If ticked, a variable characterizing the stratification of the sampling will be ask to stratify the sample."),
+                             p(strong("Stratified:"),"If selected, a variable characterizing the stratification of the sampling will be asked to stratify the sample."),
                              
-                             h2("Parameters"),
+                             br(),
+                             
+                             h3("2) Upload your population dataset"),
+                             p("The app takes only files .csv; each row of the csv need to be the primary sampling unit.",strong("The headers of the dataset must NOT contain special characters.")),
+                             p("When the file is loaded, depending of the type of sampling loaded before, some parameters will have to be specified:")
+                      ),
+                      column(1,br()),
+                      column(5,
+                             h3("3) Define your sampling parameters"),
                              p(strong("Confidence level:"),"The desired confidence level."),
-                             p(strong("Error Margin:"),"The desired error margin."),
+                             p(strong("Error Margin:"),"The desired margin of error."),
                              p(strong("Proportion:"),"The expected proportion in the sample."),
                              p(strong("Buffer:"),"The desired percentage buffer."),
                              p(strong("Cluster size:"),"The minimum number of interviews to conduct by cluster."),
-                             p(strong("ICC:"),"Intracluster  correlation : average value estimated in previous assessments = 0.06.")
-                      ),
-                      column(1,br()),
-                      column(4,
-                             h2("Loading files"),
-                             p("The app takes only files .csv; each row of the csv need to be the primary sampling unit.",strong("The headers of the dataset must NOT contain special characters."),("You can use some example data by ticking 'example data'")),
-                             p("When the files is loaded, depending of the type of sampling loaded before, some parameters will have to be specify:"),
+                             p(strong("ICC:"),"Intracluster  correlation : average value estimated in previous assessments = 0.06."),
+                             
+                             br(),
+                             
+                             h3("4) Define your sampling frame"),
+                             p("When the file is loaded, depending of the type of sampling loaded before, some parameters will have to be specified:"),
                              p(strong("Cluster:"),"The variable including the name of each cluster, there should be no duplciates in this column."),
                              p(strong("Stratification:"),"The variable in the data defining the stratification."),
                              p(strong("Population:"),"The variable in the data defining the population number by PSU.",strong("Must be > 0 and > to cluster size")),
+                             
+                             br(),
+                             
+                             h3("5) Sampling"),
                              p(strong("When all this parameters are defined please press'Apply'.")),
-                             
-                             h2("Computing target"),
-                             p("Under the target section will be compute the target based on the confidence level and margin error defined previously."),
-                             p("Click Apply to compute the target"),
-                             
-                             h2("Sampling"),
                              p("When target appear in the tab, go to the 'Sampling tab' and click 'Sample!'. You can then download the list of units sampled and the sampling summary.")
                       )
                     )
@@ -248,7 +249,7 @@ navbarPage(
                       sidebarPanel(width = 2, align = "center",
                                fluidRow(
                                  style = "margin-top: 0.5vh; margin-bottom: 0vh;",
-                                 actionButton("desButton", "Sample!",width ="95%",style="color: #fff; background-color: #B1B1B3; border-color: #B1B1B3"),
+                                 actionButton("desButton", "SAMPLE",width ="95%",style="color: #fff; background-color: #f24c02; border-color: #f24c02"),
                                ),
                                fluidRow(
                                  style = "margin-top: 2vh; margin-bottom: 0vh;",
@@ -262,7 +263,7 @@ navbarPage(
                       
                       mainPanel(
                         fluidRow(
-                          style = "margin-top: 0vh; margin-bottom: 0vh;",
+                          style = "margin-top: 5vh; margin-bottom: 5vh;",
                           column(width = 2),
                           column(width = 8, align="center",
                                  style="color: #B1B1B3; font-size: 4vh; font-weight: bold;",  # Add font-weight: bold
@@ -273,7 +274,7 @@ navbarPage(
 
                         
                         fluidRow(
-                          style = "margin-top: 5vh; margin-bottom: 0vh;",
+                          style = "margin-top: 10vh; margin-bottom: 0vh;",
                           column(width = 2),
                           column(width = 8, align="center",
                                  style="color: #B1B1B3; font-size: 4vh; font-weight: bold;",  # Add font-weight: bold
